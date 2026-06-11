@@ -10,7 +10,12 @@ public class PlayerTest {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        ArrayList<Player> playerList = new ArrayList<Player>();
+//        ArrayList<Player> playerList = new ArrayList<Player>();
+        Player[] playerList = new Player[10];
+        int playerCount = 0;
+
+        playerList[9].displayPlayer();
+        System.out.println(playerList[9]);
 
         int operation;
         while(true) {
@@ -33,8 +38,13 @@ public class PlayerTest {
             switch (operation) {
                 // craete player
                 case 1:
+                    if(playerCount == 10){
+                        System.out.println("Player list is full");
+                        break;
+                    }
                     Player newPlayer = createPlayer(scanner);
-                    playerList.add(newPlayer);
+//                    playerList.add(newPlayer);
+                    playerList[playerCount++] = newPlayer;
                     System.out.println("Account created successfully");
 
                     newPlayer.displayPlayer();

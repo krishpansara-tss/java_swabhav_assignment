@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class AccountTest {
     public static void main(String[] args) {
-//        Account[] accounts = new Account[10];
-        ArrayList<Account> accounts = new ArrayList<>();
+        Account[] accounts = new Account[10];
+//        ArrayList<Account> accounts = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         int accountCount = 0;
 
@@ -36,10 +36,14 @@ public class AccountTest {
             switch (operation){
                 // craete account
                 case 1:
+                    if(accountCount == 10){
+                        System.out.println("Bank is full");
+                        break;
+                    }
                     Account newAccount = createAccount(scanner);
                     // add new account in the array
-//                    accounts[accountCount++] = newAccount;
-                    accounts.add(newAccount);
+                    accounts[accountCount++] = newAccount;
+//                    accounts.add(newAccount);
                     System.out.println("Account created successfully");
 
                     newAccount.displayAccountDetails();
@@ -49,7 +53,7 @@ public class AccountTest {
                 // deposit
                 case 2:
 
-                    Account currAccountToDeposit = accountVerification(accounts, scanner);
+                    Account currAccountToDeposit = accountVerification(accounts, accountCount, scanner);
                     if(currAccountToDeposit != null){
                         int amountToDeposit = inputAmount(scanner);
                         if(currAccountToDeposit.deposit(amountToDeposit)){
@@ -64,7 +68,7 @@ public class AccountTest {
 
                 // withdraw
                 case 3:
-                    Account currAccountToWithdraw = accountVerification(accounts, scanner);
+                    Account currAccountToWithdraw = accountVerification(accounts, accountCount, scanner);
                     if(currAccountToWithdraw != null){
                         int amountToWithdraw = inputAmount(scanner);
                         if(currAccountToWithdraw.withdraw(amountToWithdraw)){
@@ -80,13 +84,13 @@ public class AccountTest {
                 // transfer
                 case 4:
                     System.out.println("Enter Details about the sender's account : ");
-                    Account accountSender = accountVerification(accounts, scanner);
+                    Account accountSender = accountVerification(accounts, accountCount, scanner);
                     if(accountSender == null){
                         System.out.println("No account exist");
                         break;
                     }
                     System.out.println("Enter Details about the receiver's account : ");
-                    Account accountReceiver = accountVerification(accounts, scanner);
+                    Account accountReceiver = accountVerification(accounts, accountCount, scanner);
 
                     if(accountReceiver == null){
                         System.out.println("No account exist");
@@ -115,7 +119,7 @@ public class AccountTest {
 
                 // account detail
                 case 5:
-                    Account currAccountToDisplay = accountVerification(accounts, scanner);
+                    Account currAccountToDisplay = accountVerification(accounts, accountCount, scanner);
                     if(currAccountToDisplay != null){
                         currAccountToDisplay.displayAccountDetails();
                     }else{
@@ -153,15 +157,15 @@ public class AccountTest {
         return amount;
     }
 
-    public static Account accountVerification(ArrayList<Account> accounts, Scanner scanner){
+    public static Account accountVerification(Account[] accounts, int accountCount, Scanner scanner){
         int accountNumber;
         while(true){
             System.out.print("\n\nEnter account number : ");
             if(scanner.hasNextInt()){
                 accountNumber = scanner.nextInt();
-                for(Account a : accounts)
-                    if (a != null && a.getAccountNumber() == accountNumber) {
-                        return a;
+                for(int i = 0; i < accountCount; i++)
+                    if (accounts[i] != null && accounts[i].getAccountNumber() == accountNumber) {
+                        return accounts[i];
                     }
                 break;
             }else{
