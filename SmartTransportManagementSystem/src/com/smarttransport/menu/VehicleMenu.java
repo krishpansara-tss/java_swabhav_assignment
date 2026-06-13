@@ -1,91 +1,124 @@
 package com.smarttransport.menu;
 
+import com.smarttransport.exception.UnsupportedOperation;
 import com.smarttransport.exception.VehicleNotFound;
 import com.smarttransport.model.Bus;
 import com.smarttransport.model.Metro;
-import com.smarttransport.model.Texi;
+import com.smarttransport.model.Taxi;
 import com.smarttransport.model.Vehicle;
 import com.smarttransport.service.VehicleService;
 
 import java.util.Scanner;
 
+import static com.smarttransport.inputfunction.InputFunction.*;
+
 public class VehicleMenu {
-    public static void vehicleMenu(){
-        Scanner scanner = new Scanner(System.in);
-        int opr;
-        VehicleService vehicleService = new VehicleService();
+    public static void vehicleMenu(VehicleService vehicleService, Scanner scanner){
+        String opr;
 
         while(true){
-            System.out.println("Select OPR");
+            System.out.println("\nEnter the number to choose operation");
             System.out.println("1. Add vehicle");
-            System.out.println("2. Search by id");
-            System.out.println("3. Display all");
-            opr = scanner.nextInt();
+            System.out.println("2. Search Vehicle by id");
+            System.out.println("3. Display all Vehicle");
+            System.out.println("4. Send vehicle to Maintenance");
+            System.out.println("5. Receive vehicle from Maintenance");
+            System.out.println("6. Highest revenue generated vehicle");
+            System.out.println("7. Return to all option");
+            System.out.print("Enter your choice: ");
+            opr = scanner.nextLine();
 
             switch (opr){
 
-                case 1:
-                    System.out.println("Type number according to your vehicle");
+                case "1":
+                    System.out.println("\nType number according to your vehicle");
                     System.out.println("1. Bus");
                     System.out.println("2. Taxi");
                     System.out.println("3. Metro");
-                    int vehicleType = scanner.nextInt();
+                    System.out.print("Enter your choice: ");
+                    String vehicleType = scanner.nextLine();
 
 
-                    String driverName, vehicleNumber;
+                    String driverName = inputDriverName(scanner);
 
-                    int age;
-                    System.out.println("Name of the driver : ");
-                    scanner.nextLine();
-                    driverName = scanner.nextLine();
-
-                    System.out.println("Enter vehicle number : ");
-                    vehicleNumber = scanner.nextLine();
+                    String vehicleNumber = inputVehicleNumber(scanner);
 
                     switch (vehicleType){
-                        case 1:
+                        case "1":
                             vehicleService.addVehicle(new Bus(driverName, vehicleNumber));
                             break;
 
-                        case 2:
-                            vehicleService.addVehicle(new Texi(driverName, vehicleNumber));
+                        case "2":
+                            vehicleService.addVehicle(new Taxi(driverName, vehicleNumber));
                             break;
 
-                        case 3:
+                        case "3":
                             vehicleService.addVehicle(new Metro(driverName, vehicleNumber));
                             break;
 
                         default:
                             System.out.println("Enter valid vehicle type");
-                            return;
                     }
                     break;
 
-                case 2:
-                    System.out.print("Enter id to search : ");
-                    scanner.nextLine();
-                    String id = scanner.nextLine();
+                case "2":
+                    String id = inputVehicleId(scanner);
 
                     try{
                         Vehicle vehicle = vehicleService.searchVehicleById(id);
 
                         if(vehicle!=null){
-                            System.out.println("User exist with the id : " + id );
+                            System.out.println("Vehicle exist with the id : " + id );
                         }
                     }catch (VehicleNotFound e){
                         System.out.println("Error occur : "+ e.getMessage());
+                    }catch (Exception e) {
+                        throw new RuntimeException(e);
                     }
                     break;
 
-                case 3:
+                case "3":
                     System.out.println("Displaying all the Vehicle: ");
                     vehicleService.displayAllVehicle();
                     break;
 
-                default:
+                case "4":
+                    id = inputVehicleId(scanner);
+                    try{
+                        vehicleService.sendVehicleToMaintenance(id);
+                    } catch (UnsupportedOperation e) {
+                        System.out.println(e.getMessage());
+                    } catch (VehicleNotFound e){
+                        System.out.println(e.getMessage());
+                    }catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+
+                case "5":
+                    id = inputVehicleId(scanner);
+                    try{
+                        vehicleService.takeVehicleFromMaintenance(id);
+                    } catch (UnsupportedOperation e) {
+                        System.out.println(e.getMessage());
+                    } catch (VehicleNotFound e){
+                        System.out.println(e.getMessage());
+                    }catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+
+                case "6":
+                    vehicleService.displayVehicleWithHighestRevenue();
+                    break;
+
+                case "7":
+                    System.out.println("Returning to all menu");
                     return;
+
+                default:
+                    System.out.println("Enter valid menu option");
             }
         }
-
     }
 }

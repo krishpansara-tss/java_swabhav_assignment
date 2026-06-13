@@ -2,51 +2,45 @@ package com.smarttransport.menu;
 
 import com.smarttransport.exception.PassengerNotFound;
 import com.smarttransport.model.Passenger;
-import com.smarttransport.service.PassengerServices;
+import com.smarttransport.service.PassengerService;
 
 import java.util.Scanner;
 
-public class PassengerMenu {
-    public static void PassengerMenu(){
-        Scanner scanner = new Scanner(System.in);
-        int opr;
-        PassengerServices passengerServices = new PassengerServices();
+import static com.smarttransport.inputfunction.InputFunction.*;
 
-            while(true){
-            System.out.println("Select OPR");
+public class PassengerMenu {
+    public static void passengerMenu(PassengerService passengerServices, Scanner scanner){
+        String opr;
+
+        while(true){
+            System.out.println("\nEnter the number to choose operation");
             System.out.println("1. Register");
             System.out.println("2. Search by id");
             System.out.println("3. Display all");
-            opr = scanner.nextInt();
-
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            opr = scanner.nextLine();
 
             switch (opr){
 
-                case 1:
+                case "1":
                     String name, destination;
                     int age;
-                    System.out.println("Name of the passenger : ");
-                    scanner.nextLine();
-                    name = scanner.nextLine();
-
-                    System.out.println("Age of the passenger : ");
-                    age = scanner.nextInt();
-
-                    System.out.println("Destination of the passenger : ");
-                    scanner.nextLine();
-                    destination = scanner.nextLine();
+                    name = inputPassengerName(scanner);
+                    age = inputAge(scanner);
+                    destination = inputDestination(scanner);
 
                     try{
                         passengerServices.registerUser(name, age, destination);
                     }catch(IllegalArgumentException e){
                         System.out.println(e.getMessage());
+                    }catch (Exception e) {
+                        throw new RuntimeException(e);
                     }
                     break;
 
-                case 2:
-                    System.out.print("Enter id to search:");
-                    scanner.nextLine();
-                    String id = scanner.nextLine();
+                case "2":
+                    String id = inputPassengerId(scanner);
 
                     try{
                         Passenger p = passengerServices.searchUserById(id);
@@ -56,17 +50,21 @@ public class PassengerMenu {
                         }
                     }catch (PassengerNotFound e){
                         System.out.println("Error occur : "+e.getMessage());
+                    }catch (Exception e) {
+                        throw new RuntimeException(e);
                     }
                     break;
 
-                case 3:
+                case "3":
                     System.out.println("Displaying all the passengers: ");
                     passengerServices.displayAllPassenger();
 
+                    break;
+
                 default:
+                    System.out.println("Returning to all menu");
                     return;
             }
         }
-
     }
 }

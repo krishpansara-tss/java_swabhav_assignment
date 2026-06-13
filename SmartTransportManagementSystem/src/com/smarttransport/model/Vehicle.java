@@ -23,7 +23,7 @@ public abstract class Vehicle {
         this.currPassengerList = new ArrayList<>();
     }
 
-    public abstract double calculateFair(double distance);
+    public abstract double calculateFare(double distance);
 
     public int getAvailableSeats(){
         return this.capacity - this.currPassengerList.size();
@@ -37,6 +37,13 @@ public abstract class Vehicle {
         this.totalRevenue += fair;
     }
 
+    public List<Passenger> getCurrPassengerList() {
+        return currPassengerList;
+    }
+
+    public void setCurrPassengerList(List<Passenger> currPassengerList) {
+        this.currPassengerList = currPassengerList;
+    }
 
     public String getVehicleId() {
         return vehicleId;

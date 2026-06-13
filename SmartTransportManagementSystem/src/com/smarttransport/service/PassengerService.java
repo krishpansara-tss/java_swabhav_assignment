@@ -6,7 +6,7 @@ import com.smarttransport.model.Passenger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PassengerServices {
+public class PassengerService {
     Map<String, Passenger> passengerMap = new HashMap<>();
 
     public void registerUser(String name, int age, String destination){
@@ -16,7 +16,6 @@ public class PassengerServices {
         }
         Passenger p = new Passenger(name, age, destination);
         passengerMap.put(p.getPassengerId().toUpperCase(), p);
-        System.out.println(passengerMap);
         System.out.println("Passenger Added Successfully with ID: " + p.getPassengerId());
     }
 

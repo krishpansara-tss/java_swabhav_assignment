@@ -2,10 +2,11 @@ package com.smarttransport.model;
 
 import com.smarttransport.interfaces.Maintainable;
 
-public class Bus extends Vehicle implements Maintainable {
+public class Taxi extends Vehicle implements Maintainable {
     private boolean inMaintenance;
-    public Bus(String driverName, String vehicleNumber) {
-        super(driverName, vehicleNumber, 50);
+
+    public Taxi(String driverName, String vehicleNumber) {
+        super(driverName, vehicleNumber, 4);
     }
 
     @Override
@@ -13,27 +14,27 @@ public class Bus extends Vehicle implements Maintainable {
         if(distance < 0){
             throw new IllegalArgumentException("Distance must be positive");
         }
-        return distance * (100);
+        return distance * (150);
     }
 
     @Override
     public void sendToMaintenance() {
         if(this.inMaintenance){
-            System.out.println("Bus is already in the maintenance");
+            System.out.println("Taxi is already in the maintenance");
             return;
         }
         this.inMaintenance = true;
-        System.out.println("Bus is send in the maintenance");
+        System.out.println("Taxi is send in the maintenance");
     }
 
     @Override
     public void takeFromMaintenance() {
         if(!this.inMaintenance){
-            System.out.println("Bus is not in maintenance");
+            System.out.println("Taxi is not in maintenance");
             return;
         }
         this.inMaintenance = false;
-        System.out.println("Bus received from the maintenance successfully");
+        System.out.println("Taxi received from the maintenance successfully");
     }
 
     @Override
