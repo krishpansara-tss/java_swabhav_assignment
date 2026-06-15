@@ -68,6 +68,56 @@ public class VehicleService {
         System.out.println("------------------------------------");
     }
 
+    public void displayMaximumOccupancyVehicle() {
+        if (vehicleMap.isEmpty()) {
+            System.out.println("No data available: The fleet is empty.");
+            return;
+        }
+
+        Vehicle mostCrowdedVehicle = null;
+
+        for (Vehicle v : vehicleMap.values()) {
+            if (mostCrowdedVehicle == null || v.getCurrPassengerList().size() > mostCrowdedVehicle.getCurrPassengerList().size()) {
+                mostCrowdedVehicle = v;
+            }
+        }
+
+        System.out.println("\n--- MAXIMUM OCCUPANCY REPORT ---");
+        if (mostCrowdedVehicle.getCurrPassengerList().isEmpty()) {
+            System.out.println("All vehicles are currently empty.");
+        } else {
+            System.out.println("Vehicle ID : " + mostCrowdedVehicle.getVehicleId());
+            System.out.println("Type       : " + mostCrowdedVehicle.getClass().getSimpleName());
+            System.out.println("Passengers : " + mostCrowdedVehicle.getCurrPassengerList().size() + " boarded");
+            System.out.println("Max Limit  : " + mostCrowdedVehicle.getCapacity() + " passengers");
+        }
+        System.out.println("------------------------------------");
+    }
+
+    public void displayVehiclesUnderMaintenance() {
+        System.out.println("\n--- MAINTENANCE STATUS REPORT ---");
+        boolean foundAny = false;
+
+        for (Vehicle v : vehicleMap.values()) {
+            // Check if it's a Maintainable type, then check its flag
+            if (v instanceof Maintainable) {
+                Maintainable m = (Maintainable) v;
+                if (m.isUnderMaintenance()) {
+                    System.out.println("• [UNDER REPAIR] ID: " + v.getVehicleId() +
+                            " | Type: " + v.getClass().getSimpleName() +
+                            " | Driver: " + v.getDriverName() +
+                            " | License Plate: " + v.getVehicleNumber());
+                    foundAny = true;
+                }
+            }
+        }
+
+        if (!foundAny) {
+            System.out.println("Excellent! All active vehicles are operational and running safely.");
+        }
+        System.out.println("------------------------------------");
+    }
+
 
     public void sendVehicleToMaintenance(String vehicleId) throws VehicleNotFound {
         Vehicle vehicle = searchVehicleById(vehicleId);

@@ -24,6 +24,8 @@ public class VehicleMenu {
             System.out.println("4. Send vehicle to Maintenance");
             System.out.println("5. Receive vehicle from Maintenance");
             System.out.println("6. Highest revenue generated vehicle");
+            System.out.println("6. Maximum occupancy vehicle");
+            System.out.println("6. Display all vehicle which is under Maintenance ");
             System.out.println("7. Return to all option");
             System.out.print("Enter your choice: ");
             opr = scanner.nextLine();
@@ -113,6 +115,14 @@ public class VehicleMenu {
                     break;
 
                 case "7":
+                    vehicleService.displayMaximumOccupancyVehicle();
+                    break;
+
+                case "8":
+                    vehicleService.displayVehiclesUnderMaintenance();
+                    break;
+
+                case "9":
                     System.out.println("Returning to all menu");
                     return;
 

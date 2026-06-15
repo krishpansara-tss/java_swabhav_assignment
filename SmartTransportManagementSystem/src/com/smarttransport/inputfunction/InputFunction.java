@@ -3,17 +3,32 @@ package com.smarttransport.inputfunction;
 import java.util.Scanner;
 
 public class InputFunction {
-    public static String inputVehicleNumber(Scanner scanner){
+    public static String inputVehicleNumber(Scanner scanner) {
         String vehicleNumber;
-        while(true){
-            System.out.println("Enter vehicle number : ");
-            vehicleNumber = scanner.nextLine().toUpperCase();
-            if(vehicleNumber.isEmpty()){
-                System.out.println("Please enter the value, field can't be empty");
-            }else{
-                break;
+
+        while (true) {
+            System.out.print("Enter vehicle number: ");
+            vehicleNumber = scanner.nextLine();
+
+            if (vehicleNumber == null || vehicleNumber.trim().isEmpty()) {
+                System.out.println("Field can't be empty. Please enter a value.");
+                continue;
             }
+
+            // Normalize input
+            vehicleNumber = vehicleNumber.replaceAll("\\s+", "").toUpperCase();
+
+            // Validate format
+            if (vehicleNumber.matches("^[A-Z]{2}[0-9]{1,2}[A-Z]{1,2}[0-9]{1,4}$")) {
+                System.out.println("Invalid vehicle number format!");
+                System.out.println("Example valid formats: GJ01AB1234, MH12DE1433");
+                continue;
+            }
+
+            // Valid input
+            break;
         }
+
         return vehicleNumber;
     }
 
