@@ -1,6 +1,7 @@
 package com.shopingmanagement.model;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,7 @@ public class Order {
     private static long nextId = 100;
     private String orderId;
     private Date orderDate;
-    private Map<String, LineItem> lineItemLMap;
+    private Map<String, LineItem> lineItemLMap = new HashMap<>();
 
     public Order(Date orderDate,  Map<String, LineItem> lineItemList) {
         this.orderId = "OID" + ++nextId;

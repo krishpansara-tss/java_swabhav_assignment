@@ -53,4 +53,15 @@ public class Product {
     public double calculateDiscountedPrice() {
         return price - (price * discountPercentage / 100);
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId='" + productId + '\'' +
+                ", productName='" + productName + '\'' +
+                ", price=" + price +
+                ", discountPercentage=" + discountPercentage +
+                ", productStock=" + productStock +
+                '}';
+    }
 }
