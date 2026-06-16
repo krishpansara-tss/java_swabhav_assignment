@@ -24,30 +24,21 @@ public class MovieManager {
     }
 
     public void loadMovies() {
-
+        File file = new File("data/movies.ser");
+        System.out.println("Loading the movies");
+        if (!file.exists()) {
+            System.out.println("No saved data found. Starting fresh.");
+            return;
+        }
         try{
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
 
-            System.out.println("Loading the movies");
-
-            BufferedReader reader = new BufferedReader(new FileReader("data/movies"));
-            String line;
-
-            while((line = reader.readLine()) != null){
-                String[] tokens = line.split("\\|");
-
-                int movieId = Integer.parseInt(tokens[0]);
-                String title = tokens[1];
-                String genre = tokens[2];
-                int releaseYear = Integer.parseInt(tokens[3]);
-
-                movieList.add(new Movie(movieId, title, genre, releaseYear));
-            }
-
-            reader.close();
-
+            movieList = (List<Movie>) objectInputStream.readObject();
+            objectInputStream.close();
+            System.out.println("Movies loaded successfully!");
         } catch (FileNotFoundException e) {
             System.out.println("No saved data found. Starting with an empty list. "+e.getMessage());
-        } catch(IOException e){
+        } catch(IOException | ClassNotFoundException e){
             System.out.println("Error reading the file:" + e.getMessage());
         }
 
@@ -55,18 +46,16 @@ public class MovieManager {
 
     public void saveMovies() {
         System.out.println("Saving changes to file...");
+        File file = new File("data/movies.ser");
+        file.getParentFile().mkdirs();
+
         try{
-            BufferedWriter writer = new BufferedWriter(new FileWriter("data/movies"));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file));
+            objectOutputStream.writeObject(movieList);
 
-            for(Movie movie : movieList){
-                writer.write(movie.toFileString());
-                writer.newLine();
-            }
-
+            objectOutputStream.close();
 
             System.out.println("All changes permanently saved to file!");
-            writer.close();
-
         } catch (FileNotFoundException e) {
             System.out.println("Error: " + e.getMessage());
         } catch(IOException e){

@@ -1,7 +1,11 @@
 package com.moviemanager.model;
 
-public class Movie implements Comparable<Movie>{
+import java.io.Serializable;
+
+public class Movie implements Comparable<Movie>, Serializable {
 //    private static int nextId = 100;
+    private static final long serializationUID = 1l;
+
     private int id;
     private String title;
     private String genre;
@@ -46,10 +50,10 @@ public class Movie implements Comparable<Movie>{
     @Override
     public String toString() {
         return
-                "Movie Id=" + id +
-                "| Title=" + title +
-                "| Genre=" + genre +
-                "| Year=" + releaseYear;
+                "Id=" + id +
+                " | Title=" + title +
+                " | Genre=" + genre +
+                " | Year=" + releaseYear;
     }
 
     @Override
