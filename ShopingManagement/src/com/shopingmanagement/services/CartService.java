@@ -21,10 +21,10 @@ public class CartService {
 
         Map<String, LineItem> cart = customer.getCart();
 
-        LineItem lineItem = cart.get(productId);
+        LineItem lineItem = cart.get(productId.toUpperCase());
 
         if(lineItem == null){
-            cart.put(productId, new LineItem(quantity, product));
+            cart.put(productId.toUpperCase(), new LineItem(quantity, product));
             System.out.println("Item added to cart successfully");
             return;
         }
@@ -52,7 +52,7 @@ public class CartService {
             return;
         }
 
-        LineItem remove = cart.remove(productId);
+        LineItem remove = cart.remove(productId.toUpperCase());
 
         if(remove == null){
             System.out.println("Error: Product doesn't exist into cart.");
@@ -81,7 +81,7 @@ public class CartService {
             double itemCost = item.calculateLineItemTotal();
             cartTotal += itemCost;
 
-            System.out.printf("%-5d | %-15s | %-10.2f | %-8d | %-10.2f\n",
+            System.out.printf("%-5s | %-15s | %-10.2f | %-8d | %-10.2f\n",
                     item.getProduct().getProductId(),
                     item.getProduct().getProductName(),
                     item.getProduct().calculateDiscountedPrice(),

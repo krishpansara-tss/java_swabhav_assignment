@@ -41,7 +41,7 @@ public class ProductService {
     public void removeProductFromShop(String productId) throws ProductNotFound{
         Product p = findProductById(productId);
 
-        ProductRepository.removeProductFromShop(productId);
+        ProductRepository.removeProductFromShop(productId.toUpperCase());
 
         System.out.println("Product with Id : " + productId + " is removed successfully");
     }
@@ -63,7 +63,7 @@ public class ProductService {
         product.setDiscountPercentage(discount);
 
         System.out.println("Discount updated successfully.");
-        System.out.println("Final discount percentage: " + product.getProductStock());
+        System.out.println("Final discount percentage: " + product.getDiscountPercentage());
     }
 
     public static Product findProductById(String productId){

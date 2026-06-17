@@ -10,7 +10,7 @@ public class ProductRepository {
     static Map<String, Product> allProductList = new HashMap<>();
 
     public static void addProduct(Product product){
-        allProductList.put(product.getProductName(), product);
+        allProductList.put(product.getProductId().toUpperCase(), product);
     }
 
     //View All Products
@@ -20,8 +20,7 @@ public class ProductRepository {
 
     //Remove Product from Shop
     public static void removeProductFromShop(String productId) {
-        allProductList.remove(productId);
-        System.out.println("Product with Id : " + productId + " is removed successfully");
+        allProductList.remove(productId.toUpperCase());
     }
 
     //Add Stock of product
@@ -32,12 +31,12 @@ public class ProductRepository {
 
     //Update Discount
     public void updateDiscount(String productId, double discount) throws ProductNotFound {
-        Product product = findProductById(productId);
+        Product product = findProductById(productId.toUpperCase());
 
         product.setDiscountPercentage(discount);
 
         System.out.println("Discount updated successfully.");
-        System.out.println("Final discount percentage: " + product.getProductStock());
+        System.out.println("Final discount percentage: " + product.getDiscountPercentage());
     }
 
     public Product findProductById(String productId){
