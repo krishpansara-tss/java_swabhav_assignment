@@ -20,7 +20,7 @@ public class AdminMenu {
             System.out.println("3. Remove Product from Shop");
             System.out.println("4. Add Stock of product");
             System.out.println("5. Update Discount");
-            System.out.println("6. Break");
+            System.out.println("6. Return to main Menu");
             int choice = inputMenuOption("Enter your choice: ", 1, 6);
 
             switch (choice) {
